@@ -50,14 +50,15 @@ Route::group([ "middleware" => ['auth:sanctum', 'admin'] ], function() {
     Route::get('/dashboard', [DashboardController::class, 'index'])
                 ->name('dashboard');
 
-    Route::resource('food', FoodController::class);
+    Route::resource('/food', FoodController::class);
         Route::resource('users', UserController::class);
 
         Route::get('transactions/{id}/status/{status}', [TransactionController::class, 'changeStatus'])
             ->name('transactions.changeStatus');
         Route::resource('transactions', TransactionController::class);
 
-    Route::get('/user', [ UserController::class, "index" ])->name('user');
+
+    Route::get('/user', [ UserController::class, "index" ])->name('admin.users');
     Route::view('/user/new', "pages.user.user-new")->name('user.new');
     Route::view('/user/edit/{userId}', "pages.user.user-edit")->name('user.edit');
 });
