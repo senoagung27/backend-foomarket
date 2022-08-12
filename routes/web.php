@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,34 +14,14 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::middleware([
-//     'auth:sanctum',
-//     config('jetstream.auth_session'),
-//     'verified'
-// ])->group(function () {
-//     Route::get('/dashboard', function () {
-//         return view('dashboard');
-//     })->name('dashboard');
-// });
-
-// Homepage
 Route::get('/', function () {
-    return redirect()->route('admin-dashboard');
+    return view('welcome');
 });
 
-// Dashboard
-Route::prefix('dashboard')
-    ->middleware(['auth:sanctum'])
-    ->group(function() {
-        Route::get('/', [DashboardController::class, 'index']);
-        // Route::resource('food', FoodController::class);
-        // Route::resource('users', UserController::class);
+Route::group([ "middleware" => ['auth:sanctum', 'verified'] ], function() {
+    Route::view('/dashboard', "dashboard")->name('dashboard');
 
-        // Route::get('transactions/{id}/status/{status}', [TransactionController::class, 'changeStatus'])
-        //     ->name('transactions.changeStatus');
-        // Route::resource('transactions', TransactionController::class);
-    });
+    Route::get('/user', [ UserController::class, "index_view" ])->name('user');
+    Route::view('/user/new', "pages.user.user-new")->name('user.new');
+    Route::view('/user/edit/{userId}', "pages.user.user-edit")->name('user.edit');
+});
