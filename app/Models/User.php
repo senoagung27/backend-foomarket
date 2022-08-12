@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -28,6 +29,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'address',
+        'houseNumber',
+        'phoneNumber',
+        'city',
+        'roles',
     ];
 
     /**
@@ -60,13 +66,14 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    /**
-     * Search query in multiple whereOr
-     */
-    public static function search($query)
+    public function getCreatedAtAttribute($created_at)
     {
-        return empty($query) ? static::query()
-            : static::where('name', 'like', '%'.$query.'%')
-                ->orWhere('email', 'like', '%'.$query.'%');
+        return Carbon::parse($created_at)
+            ->getPreciseTimestamp(3);
+    }
+    public function getUpdatedAtAttribute($updated_at)
+    {
+        return Carbon::parse($updated_at)
+            ->getPreciseTimestamp(3);
     }
 }
