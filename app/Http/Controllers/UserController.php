@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\{UserUpdateRequest,UserAddRequest};
-use Spatie\Permission\Models\Role;
-use App;
 
 class UserController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(User::class);
+        // $this->authorizeResource(User::class);
     }
     /**
      * Display a listing of the resource.
@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize(User::class, 'index');
+        // $this->authorize(User::class, 'index');
         if($request->ajax())
         {
             $users = new User;
