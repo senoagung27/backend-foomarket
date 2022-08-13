@@ -2,60 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\User;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\{UserUpdateRequest,UserAddRequest};
+use Spatie\Permission\Models\Role;
+use App;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class);
+    }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = User::paginate(10);
-
-        return view('users.index', [
-            'user' => $user
-        ]);
+        $this->authorize(User::class, 'index');
+        if($request->ajax())
+        {
+            $users = new User;
+            if($request->q)
+            {
+                $users = $users->where('name', 'like', '%'.$request->q.'%')->orWhere('email', $request->q);
+            }
+            $users = $users->paginate(config('stisla.perpage'))->appends(['q' => $request->q]);
+            return response()->json($users);
+        }
+        return view('admin.users.index');
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('users.create');
+        return view('admin.users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(UserAddRequest $request)
     {
-        $data = $request->all();
-
-        $data['picturePath'] = $request->file('picturePath')->store('assets/user', 'public');
-
-        User::create($data);
-
-        return redirect()->route('users.index');
+        $user = User::create($request->all());
+        $role = Role::find($request->role);
+        if($role)
+        {
+            $user->assignRole($role);
+        }
+        return response()->json($user);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
         //
     }
@@ -63,47 +77,66 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
     {
-        return view('users.edit',[
-            'item' => $user
-        ]);
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\RedirectResponse
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        $data = $request->all();
-
-        if($request->file('picturePath'))
+        if(!App::environment('demo'))
         {
-            $data['picturePath'] = $request->file('picturePath')->store('assets/user', 'public');
+            $user->update($request->only([
+                'name', 'email'
+            ]));
+
+            if($request->password)
+            {
+                $user->update(['password' => Hash::make($request->password)]);
+            }
+
+            if($request->role && $request->user()->can('edit-users') && !$user->isme)
+            {
+                $role = Role::find($request->role);
+                if($role)
+                {
+                    $user->syncRoles([$role]);
+                }
+            }
         }
 
-        $user->update($data);
-
-        return redirect()->route('users.index');
+        return response()->json($user);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\RedirectResponse
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        if(!App::environment('demo') && !$user->isme)
+        {
+            $user->delete();
+        } else
+        {
+            return response()->json(['message' => 'User accounts cannot be deleted in demo mode.'], 400);
+        }
+    }
 
-        return redirect()->route('users.index');
+    public function roles()
+    {
+        return response()->json(Role::get());
     }
 }
