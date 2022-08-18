@@ -73,7 +73,7 @@ class FoodController extends Controller
      */
     public function edit(Food $food)
     {
-        return view('food.edit',[
+        return view('admin.food.edit',[
             'item' => $food
         ]);
     }
@@ -105,10 +105,14 @@ class FoodController extends Controller
      * @param  \App\Models\Food  $food
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Food $food)
+    public function destroy($id)
     {
+        $food = Food::where('id','=',$id)->first();
+        // dd($dataBiodata);
         $food->delete();
-
         return redirect()->route('food.index');
+        // $food->delete();
+
+        // return redirect()->route('food.index');
     }
 }
