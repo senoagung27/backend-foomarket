@@ -62,11 +62,13 @@ Dashboard
 <section class="section">
     <div class="section-header">
          <div class="mb-10">
-            <a href="{{ url('food/create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                + Create Food
+            <a href="{{ url('food/create') }}" class="btn btn-icon icon-left btn-primary">
+                    <i class="fa fa-plus">
+                    Create
+                </i>
             </a>
         </div>
-      <h1>Manage Food</h1>
+
     </div>
     <div class="section-body">
         <div class="row">
@@ -114,7 +116,7 @@ Dashboard
                             <td class="align-middle">{{ $item->rate }}</td>
                             <td class="align-middle">{{ $item->types }}</td>
                             <td class="align-middle">
-                                {{-- <a href="{{ route('food.edit', $item->id) }}"  class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Edit</a>
+                                {{-- <a href="{{ route('food.edit', $item->id) }}"class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i>Edit</a>
                                 <form action="{{ route('food.destroy', $item->id) }}" method="POST" class="inline-block">
                                     {!! method_field('delete') . csrf_field() !!}
                                     <button type="submit" class="btn btn-icon icon-left btn-danger">
@@ -130,8 +132,8 @@ Dashboard
                            </td>
                         </tr>
                     @endforelse
-                        
-                       
+
+
                       </tbody>
                     </table>
                   </div>
