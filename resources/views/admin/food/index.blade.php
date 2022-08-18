@@ -62,11 +62,9 @@ Dashboard
 <section class="section">
     <div class="section-header">
          <div class="mb-10">
-            <a href="{{ url('food/create') }}" class="btn btn-icon icon-left btn-primary">
-                    <i class="fa fa-plus">
-                    Create
-                </i>
-            </a>
+         <div class="card-header-action">
+            <h4>Manage Food</h4>
+         </div>
         </div>
 
     </div>
@@ -75,7 +73,12 @@ Dashboard
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4>Food</h4>
+                  {{-- <h4>Food</h4> --}}
+                  <a href="{{ url('food/create') }}" class="btn btn-icon icon-left btn-primary">
+                    <i class="fa fa-plus">
+                    Create
+                </i>
+            </a>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">

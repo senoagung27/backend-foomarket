@@ -13,6 +13,6 @@
       <li class="{{ Request::route()->getName() == 'users' ? ' active' : '' }}"><a class="nav-link" href="{{ route('users') }}"><i class="fa fa-users"></i> <span>Users</span></a></li>
       @endif
       <li class="menu-header">Food</li>
-      <li class="{{ Request::route()->getName() == 'food' ? ' active' : '' }}"><a class="nav-link" href="{{ route('food') }}"><i class="fa fa-users"></i> <span>Food</span></a></li>
+      <li class="{{ Request::route()->getName() == 'food' ? ' active' : '' }}"><a class="nav-link" href="{{ route('food') }}"><i class="fas fa-hamburger"></i><span>Food</span></a></li>
     </ul>
 </aside>

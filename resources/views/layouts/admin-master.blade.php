@@ -13,6 +13,7 @@
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+  {{-- <link rel="stylesheet" href="{{ asset('assets/fontawesome-free-6.1.2-web/css/fontawesome.min.css') }}"> --}}
   <link rel="stylesheet" href="{{ asset('assets/css/components.css')}}">
 </head>
 
