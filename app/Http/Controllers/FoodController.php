@@ -94,7 +94,13 @@ class FoodController extends Controller
             $data['picturePath'] = $request->file('picturePath')->store('assets/food', 'public');
         }
 
-        $food->update($data);
+        // $food->update($data);
+
+        Food::where('id',$request->id)->update([
+            'nama_jenis_hak' => $request->nama_jenis_hak,
+       ]);
+        // $data = $request->all();
+
 
         return redirect()->route('food.index');
     }

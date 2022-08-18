@@ -14,9 +14,9 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-  {{-- <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css') }}"> --}}
-  {{-- <link rel="stylesheet" href="{{ asset('assets/fontawesome-free-6.1.2-web/css/fontawesome.min.css') }}"> --}}
+  <link rel="stylesheet" href="{{ asset('assets/fontawesome-free-6.1.2-web/css/fontawesome.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/components.css')}}">
 </head>
 
@@ -46,7 +46,7 @@
   <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
   <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
-  {{-- <script src="{{ asset('node_modules/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('node_modules/datatables/media/js/jquery.dataTables.min.js') }}"></script>
   <script src="{{ asset('node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
   <script src="{{ asset('node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script> --}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>

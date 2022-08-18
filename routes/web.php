@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function() {
     Route::get('food/create', 'FoodController@create')->name('food.create');
     Route::get('food/store', 'FoodController@create')->name('food.store');
     Route::get('food/edit/{food}', 'FoodController@edit')->name('food.edit');
-    Route::get('food/update', 'FoodController@update')->name('food.update');
+    Route::get('food/update/{food}', 'FoodController@update')->name('food.update');
     Route::delete('food/destroy{id}', 'FoodController@destroy')->name('food.destroy');
     // Route::resource('food', FoodController::class);
     // Route::resource('food', 'FoodController')->name('food.index');
