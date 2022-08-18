@@ -2,24 +2,46 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FoodController;
+// use App\Http\Controllers\FoodController;
 
 Route::get('/', function() {
-    return redirect(route('admin.dashboard'));
+    return redirect(route('dashboard'));
 });
 
 Route::get('home', function() {
-    return redirect(route('admin.dashboard'));
+    return redirect(route('dashboard'));
 });
 
-Route::name('admin.')->prefix('admin')->middleware('auth')->group(function() {
+Route::middleware('auth')->group(function() {
     Route::get('dashboard', 'DashboardController')->name('dashboard');
+    Route::get('users/roles', 'UserController@index')->name('users');
+    Route::get('users/roles/edit', 'UserController@edit')->name('users.edit');
+    Route::get('food', 'FoodController@index')->name('food');
+    // Route::resource('food', 'FoodController')->name('food.index');
+    // Route::resource('food', 'FoodController')->except([
+    //    'index', 'create', 'store', 'update', 'destroy'
+    // ]);
+    // Route::resource('food', 'FoodController')->names([
+    //     'index' => 'food.index'
+    // ]);
+    // Route::get('food', [FoodController::class, 'index'])->name('admin.food');
+    // Route::post('food/crete', [FoodController::class, 'create'])->name('food.create');
+    // Route::resource('food', 'FoodController')->only([
+    //     'index','create'
+    // ]);
+    // Route::resource('food', 'FoodController', [
+    //     'names' => [
+    //         'index' => 'food',
+    //     ]
+    // ]);
 
-    Route::get('users/roles', 'UserController@roles')->name('users.roles');
-    Route::resource('users', 'UserController', [
-        'names' => [
-            'index' => 'users'
-        ]
-    ]);
+    // Route::resource('food', FoodController::class);
+    // Route::resource('users', 'UserController', [
+    //     'names' => [
+    //         'index' => 'users'
+    //     ]
+    // ]);
 });
 
 Route::middleware('auth')->get('logout', function() {

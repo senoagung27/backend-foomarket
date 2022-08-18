@@ -1,11 +1,11 @@
 <?php
 namespace App\Traits;
-use Storage;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 trait UserTrait {
     public function getProfilelinkAttribute()
     {
-        return route('admin.users.edit', ['user' => $this->id]);
+        return route('users.edit', ['user' => $this->id]);
     }
 
     public function getAvatarlinkAttribute()

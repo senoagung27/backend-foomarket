@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Food;
 use Illuminate\Http\Request;
 use App\Http\Requests\FoodRequest;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class FoodController extends Controller
@@ -18,9 +19,12 @@ class FoodController extends Controller
     {
         $food = Food::paginate(10);
 
-        return view('food.index', [
+        return view('admin.food.index', [
             'food' => $food
         ]);
+        // $food = DB::table('food')->paginate(5);
+        // return view('admin.food.index', compact('food'));
+        // return view('admin.food.index');
     }
 
     /**
@@ -30,7 +34,7 @@ class FoodController extends Controller
      */
     public function create()
     {
-        return view('food.create');
+        return view('admin.food.create');
     }
 
     /**
